@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
   	mobile: '',
   	photo: ''
   };
-  validOldPassword; validNewPassword; validConfirmPassword; newPassword; confirmPassword; enableChangePassword; oldPassword;
+  validOldPassword; validNewPassword; validConfirmPassword; newPassword; confirmPassword; oldPassword;
   userImage;
   editFoto:boolean = false;
   ngOnInit() {
@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
   			     	this.userDetails.mobile = user[0].mobile;
   			     	this.userDetails.photo = user[0].photo || 'default.png';
               this.oldPassword = user[0].password;
-              this.userImage = '../../../assets/images/'+ this.userDetails.photo.toString();
+              this.userImage = 'assets/images/'+ this.userDetails.photo.toString();
   			     },(err)=>{
   			     	 this.dialogsService.alert("Message","Unable to fetch your details.Try later");
   			     })
@@ -68,9 +68,10 @@ export class ProfileComponent implements OnInit {
     (<HTMLInputElement>document.getElementById('state')).setAttribute('disabled', '');
     (<HTMLInputElement>document.getElementById('mobile')).setAttribute('disabled', '');
    	(<HTMLInputElement>document.getElementById('save')).setAttribute('disabled', '');
-
+    $(".loading").show();
    	this.usersApi.updateUserDetails(this.userDetails)
    				 .then((res)=>{
+             $(".loading").hide();
    				 	var user = JSON.parse(JSON.stringify(res));
    				 	if(user.n == 1){
               localStorage.setItem('username',this.userDetails.firstName);
@@ -79,6 +80,7 @@ export class ProfileComponent implements OnInit {
    				 		this.dialogsService.alert("Message","Unable to update your details.Try later");
    				 	}
    				 },(err)=>{
+             $(".loading").hide();
    				 	 this.dialogsService.alert("Message","Unable to update your details.Try later");
    				 })
   }
@@ -92,112 +94,80 @@ export class ProfileComponent implements OnInit {
   }
 
   changePassword(oldpwd,newpwd,confirmpwd) {
-    if(!oldpwd || !newpwd || !confirmpwd) {
-      this.dialogsService.alert("Message","Please fill all the fields");
-      return;
-    }
-    if(oldpwd != this.oldPassword) {
-      this.dialogsService.alert("Message","Old password is wrong");
-      return;
-    }
-    if(newpwd != confirmpwd) {
-      this.dialogsService.alert("Message","New and Confirm password should be same");
-      return;
-    }
-    else {
+     $(".loading").show();
       this.usersApi.resetPassword(confirmpwd)
                     .then((res)=>{
+                      $(".loading").hide();
                       var response = JSON.parse(JSON.stringify(res));
                       this.validOldPassword = '';
                       this.validNewPassword = '';
                       this.validConfirmPassword = '';
                       if(response && response.n == 1){
                         this.dialogsService.alert("Message","Password changed successfully");
+                        (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
                       }else {
                         this.dialogsService.alert("Message","Something went wrong.Try again");
+                        (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
                       }
                     },(err)=>{
+                        $(".loading").hide();
                         this.dialogsService.alert("Message","Something went wrong.Try again");
+                        (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
                     })
-    }
   }
 
   oldPasswordCheck(event: any) {
     let password = event.target.value;
-
-    if(password == this.oldPassword) {
-      this.validOldPassword = "yes";
-    } else {
-      this.validOldPassword = "no";
+    if(password.length > 0){
+      if(password == this.oldPassword) {
+        this.validOldPassword = "yes";
+      } else {
+        this.validOldPassword = "no";
+      }
     }
 
-    if(this.validOldPassword && this.validOldPassword== "yes" && this.validNewPassword && this.validNewPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes") {
-      this.enableChangePassword = true;
+    if(this.validOldPassword && this.validOldPassword== "yes" && this.newPassword && this.confirmPassword  && this.newPassword == this.confirmPassword) {
+        (<HTMLInputElement>document.getElementById('changePwdBtn')).removeAttribute('disabled');
     }else{
-      this.enableChangePassword = false;
+        (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
     }
   }
 
   newPasswordChange(event: any) {
     this.newPassword = event.target.value;
     let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    let passwordFormat = "no"
-    if(regex.test(this.newPassword)){
-      passwordFormat = "yes";
-    }else{
-      passwordFormat = "no";
+
+    if(this.newPassword.length > 0){
+        if(regex.test(this.newPassword)){
+           this.validNewPassword = "yes";
+        }else{
+           this.validNewPassword = "no";
+        }
     }
 
-    if(this.confirmPassword && this.confirmPassword == this.newPassword && passwordFormat == "yes"){
-      this.validNewPassword = "yes";
-      this.validConfirmPassword = "yes";
-    }
-    else if(this.confirmPassword && this.confirmPassword != this.newPassword){
-      this.validNewPassword = "no";
-    }
-    else if(!this.confirmPassword && passwordFormat == "yes") {
-       this.validNewPassword = "yes";
-    }
-    else {
-        this.validNewPassword = "no";
-    }
-
-    if(this.validOldPassword && this.validOldPassword== "yes" && this.validNewPassword && this.validNewPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes") {
-      this.enableChangePassword = true;
+    if(this.validOldPassword && this.validOldPassword== "yes" && this.validNewPassword == "yes" && this.confirmPassword && this.confirmPassword == this.newPassword) {
+      (<HTMLInputElement>document.getElementById('changePwdBtn')).removeAttribute('disabled');
     }else{
-      this.enableChangePassword = false;
+      (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
     }
   }
 
   confirmPasswordChange(event: any) {
     this.confirmPassword = event.target.value;
-     let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-     let passwordFormat = "no";
-    if(regex.test(this.confirmPassword)){
-       passwordFormat = "yes";
-     }else{
-       passwordFormat = "no";
+     
+     if(this.confirmPassword.length > 0){
+       if(this.newPassword && this.newPassword == this.confirmPassword){
+          this.validConfirmPassword = "yes";
+       }else{
+          this.validConfirmPassword = "no";
+       }
      }
 
-    if(this.newPassword && this.newPassword == this.confirmPassword && passwordFormat == "yes"){
-      this.validConfirmPassword = "yes";
-      this.validNewPassword = "yes";
-    }
-    else if(this.newPassword && this.newPassword != this.confirmPassword){
-      this.validConfirmPassword = "no";
-    }
-    else if(!this.newPassword && passwordFormat == "yes"){
-      this.validConfirmPassword = "yes";
-    }
-    else{
-      this.validConfirmPassword = "no";
-    }
 
-
-    if(this.validOldPassword && this.validOldPassword== "yes" && this.validNewPassword && this.validNewPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes") {
-      this.enableChangePassword = true;
+    if(this.validOldPassword && this.validOldPassword== "yes" && this.newPassword  && this.newPassword ==this.confirmPassword) {
+      (<HTMLInputElement>document.getElementById('changePwdBtn')).removeAttribute('disabled');
     }else{
-      this.enableChangePassword = false;
+      (<HTMLInputElement>document.getElementById('changePwdBtn')).setAttribute('disabled', '');
     }
 
   }

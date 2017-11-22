@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/zomato');
+mongoose.connect('mongodb://vibakar:vibakar@ds153652.mlab.com:53652/zomato');
 
 mongoose.connection.once('open',function(){
   console.log('connected to mongodb');

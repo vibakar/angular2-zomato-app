@@ -99,9 +99,8 @@
 				        	<input type="Password" class="form-control" placeholder="Old Password" (keyup)="oldPasswordCheck($event)" id="oldPassword" #oldpassword>
 				        </div>
 				        <div class="col-md-2">
-				        	<i *ngIf="validOldPassword" class="icon-position fa {{validOldPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        	<i *ngIf="validOldPassword && oldpassword.value.length > 0" class="icon-position fa {{validOldPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
 				        </div>
-				        <!-- <span *ngIf="validOldPassword=='no'" class="oldpwd-error">Old Password is wrong!!</span> -->
 				      </div>
 				      <div class="form-group col-md-6 col-md-offset-3">
 				        <label for="newpassword">New Password</label>
@@ -109,7 +108,7 @@
 				        	<input type="Password" class="form-control" placeholder="New Password" (keyup)="newPasswordChange($event)" id="newPassword" #newpassword>
 				        </div>
 				        <div class="col-md-2">
-				        	<i *ngIf="validNewPassword" class="icon-position fa {{validNewPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        	<i *ngIf="validNewPassword && newpassword.value.length > 0" class="icon-position fa {{validNewPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
 				        </div>
 				      </div>
 				      <div class="form-group col-md-6 col-md-offset-3">
@@ -118,12 +117,12 @@
 				        	<input type="Password" class="form-control" placeholder="Confirm Password" (keyup)="confirmPasswordChange($event)" id="confirmPassword" #confirmpassword>
 				        </div>
 				        <div class="col-md-2">
-				        	<i *ngIf="validConfirmPassword" class="icon-position fa {{validConfirmPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        	<i *ngIf="validConfirmPassword && confirmpassword.value.length > 0" class="icon-position fa {{validConfirmPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
 				        </div>
 				      </div>
 				      <div class="form-group col-md-6 col-md-offset-3">
 				       <div class="col-md-10">
-				       	<button class="btn btn-primary {{enableChangePassword == true ? '' : 'disabled'}}" (click)="changePassword(oldpassword.value,newpassword.value,confirmpassword.value);oldpassword.value = '';newpassword.value = '';confirmpassword.value = ''">Change Password</button>
+				       	<button class="btn btn-primary" disabled="" id="changePwdBtn" (click)="changePassword(oldpassword.value,newpassword.value,confirmpassword.value);oldpassword.value = '';newpassword.value = '';confirmpassword.value = ''">Change Password</button>
 				       </div>
 				      </div>
                   </div>

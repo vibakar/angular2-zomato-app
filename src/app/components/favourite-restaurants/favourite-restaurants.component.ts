@@ -16,7 +16,9 @@ export class FavouriteRestaurantsComponent implements OnInit {
   constructor(private usersApi:UsersService,private dialogsService: DialogsService) { }
 
   ngOnInit() {
+      $(".loading").show();
       this.usersApi.getUsersRestaurants().then((res)=>{
+        $(".loading").hide();
         if(res){
           this.fetchedRestaurants = res;
         }
@@ -24,6 +26,7 @@ export class FavouriteRestaurantsComponent implements OnInit {
           this.noRestaurantsFound = true;
         }
       },(err)=>{
+        $(".loading").hide();
         this.noRestaurantsFound = true;
         this.dialogsService.alert("Message","System busy.Try again later");
       })
@@ -33,7 +36,9 @@ export class FavouriteRestaurantsComponent implements OnInit {
     this.dialogsService.confirm("Warning","Are you sure to clear all?")
                        .subscribe((res)=>{
                          if(res){
+                           $(".loading").show();
                            this.usersApi.deleteAllRestaurants().then((resp)=>{
+                             $(".loading").hide();
                              let response = JSON.parse(JSON.stringify(resp));
                              if(response && response.n == 1){
                                this.dialogsService.alert("Message","Your favourite Restaurants Deleted");
@@ -43,6 +48,7 @@ export class FavouriteRestaurantsComponent implements OnInit {
                                this.dialogsService.alert("Message","Failed to clear Restaurants.Try again Later");
                              }
                            },(err)=>{
+                             $(".loading").hide();
                              this.dialogsService.alert("Message","System busy.Try again later");
                            })
                          }
@@ -53,7 +59,9 @@ export class FavouriteRestaurantsComponent implements OnInit {
     this.dialogsService.confirm("Warning","Are you sure to delete?")
                        .subscribe((res)=>{
                             if(res){
+                              $(".loading").show();
                               this.usersApi.deleteUsersRestaurant(id).then((resp)=>{
+                                $(".loading").hide();
                                 let response = JSON.parse(JSON.stringify(resp));
                                 if(response && response.n==1){
                                   this.fetchedRestaurants = this.fetchedRestaurants.filter((obj)=>obj.restaurantId!==id);
@@ -65,6 +73,7 @@ export class FavouriteRestaurantsComponent implements OnInit {
                                   this.dialogsService.alert("Message","Failed to delete restaurant.Try again Later!!");
                                 }
                               },(err)=>{
+                                $(".loading").hide();
                                 this.dialogsService.alert("Message","System busy.Try again Later!!");
                               })
                             }

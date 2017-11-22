@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit {
   constructor(private usersApi:UsersService,private router:Router,private dialogsService: DialogsService,private route: ActivatedRoute) { }
   showlogin:boolean = true;
   returnUrl: string;
-  validName; validEmail; validPassword; validConfirmPassword; userNewPassword; userConfirmPassword; enableSignupBtn; emailExists;
+  validName; validEmail; validPassword; validConfirmPassword; userNewPassword; userConfirmPassword;
+  emailExists:string = "no";
+  
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
   }
@@ -94,17 +96,19 @@ export class LoginComponent implements OnInit {
   // detecting input field change
   usernameChange(event: any){
     let username = event.target.value;
-    if(username.length > 3){
-      this.validName = "yes";
-    }else{
-      this.validName = "no";
+    if(username.length > 0){
+        if(username.length > 3){
+          this.validName = "yes";
+        }else{
+          this.validName = "no";
+        }
     }
 
-    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes"){
-      this.enableSignupBtn = true;
+    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes" && this.emailExists == "no"){
+      (<HTMLInputElement>document.getElementById('signup')).removeAttribute('disabled');
     }
     else {
-      this.enableSignupBtn = false;
+      (<HTMLInputElement>document.getElementById('signup')).setAttribute('disabled', '');
     }
   }
 
@@ -125,17 +129,19 @@ export class LoginComponent implements OnInit {
 
     let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if(regex.test(userEmail)){
-      this.validEmail = "yes";
-    }else{
-      this.validEmail = "no";
+    if(userEmail.length > 0){
+      if(regex.test(userEmail)){
+        this.validEmail = "yes";
+      }else{
+        this.validEmail = "no";
+      }
     }
 
-    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes"){
-      this.enableSignupBtn = true;
+    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes" && this.emailExists == "no"){
+      (<HTMLInputElement>document.getElementById('signup')).removeAttribute('disabled');
     }
     else {
-      this.enableSignupBtn = false;
+      (<HTMLInputElement>document.getElementById('signup')).setAttribute('disabled', '');
     }
 
   }
@@ -143,10 +149,13 @@ export class LoginComponent implements OnInit {
   userPassword(event: any){
     this.userNewPassword = event.target.value;
     let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    if(regex.test(this.userNewPassword)){
-      this.validPassword = "yes";
-    }else{
-      this.validPassword = "no";
+
+    if(this.userNewPassword.length > 0){
+      if(regex.test(this.userNewPassword)){
+        this.validPassword = "yes";
+      }else{
+        this.validPassword = "no";
+      }
     }
 
     if(this.userConfirmPassword  && this.userConfirmPassword == this.userNewPassword){
@@ -156,27 +165,30 @@ export class LoginComponent implements OnInit {
        this.validConfirmPassword = "no";
     }
 
-    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.userConfirmPassword && this.userConfirmPassword == this.userNewPassword){
-      this.enableSignupBtn = true;
+    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.userConfirmPassword && this.userConfirmPassword == this.userNewPassword && this.emailExists == "no"){
+      (<HTMLInputElement>document.getElementById('signup')).removeAttribute('disabled');
     }
     else {
-      this.enableSignupBtn = false;
+      (<HTMLInputElement>document.getElementById('signup')).setAttribute('disabled', '');
     }
   }
+
   userConfirmPasswordCheck(event: any){
     this.userConfirmPassword = event.target.value;
-    if(this.userNewPassword && this.userNewPassword == this.userConfirmPassword){
-      this.validConfirmPassword = "yes";
-    }
-    else {
-      this.validConfirmPassword = "no";
+    if(this.userConfirmPassword.length > 0){
+      if(this.userNewPassword && this.userNewPassword == this.userConfirmPassword){
+        this.validConfirmPassword = "yes";
+      }
+      else {
+        this.validConfirmPassword = "no";
+      }
     }
 
-    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes"){
-      this.enableSignupBtn = true;
+    if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes" && this.emailExists == "no"){
+      (<HTMLInputElement>document.getElementById('signup')).removeAttribute('disabled');
     }
     else {
-      this.enableSignupBtn = false;
+      (<HTMLInputElement>document.getElementById('signup')).setAttribute('disabled', '');
     }
   }
 

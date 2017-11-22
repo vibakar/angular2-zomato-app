@@ -62,15 +62,19 @@ export class DisplayRestaurantsComponent implements OnInit, OnChanges {
   }
 
   addRestaurant(restaurant,id): void {
+    $(".loading").show();
     if(!this.isLoggedIn){
+      $(".loading").hide();
       this.dialogsService.alert("Message","Please Log in to add to your favourites");
       return;
     }
     if(restaurant.buttonValue){
+      $(".loading").hide();
       this.dialogsService.alert("Message","Restaurant already exists!!");
       return;
     }else{
       this.usersApi.addUsersRestaurants(restaurant).then((res)=>{
+        $(".loading").hide();
         let response = JSON.parse(JSON.stringify(res));
         if(response && response._id){
           this.dialogsService.alert("Message","Restaurant added to favourites!!");
@@ -83,6 +87,7 @@ export class DisplayRestaurantsComponent implements OnInit, OnChanges {
           this.dialogsService.alert("Message","Failed to add restaurant.Please try again Later")
         }
       },(err)=>{
+        $(".loading").hide();
         this.dialogsService.alert("Message","System busy.Please try again Later")
       })
     }

@@ -15,7 +15,7 @@ export class ForgotPasswordComponent implements OnInit {
   reset: boolean = true;
   formField: boolean = false;
   successMessage: boolean = false;
-  validNewPassword; validConfirmPassword; newPassword; confirmPassword; enableReset;
+  validNewPassword; validConfirmPassword; newPassword; confirmPassword;
 
   ngOnInit() {
   }
@@ -42,17 +42,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   resetPassword(password, confirmPassword) {
-    if(!password || !confirmPassword){
-      this.dialogsService.alert("Message","Please fill all the fields");
-      return;
-    }
-    if(password !== confirmPassword){
-      this.dialogsService.alert("Message","New password  and confirm password should be same");
-      return;
-    }
-    else{
+      $(".loading").show();
       this.usersApi.resetPassword(password)
                     .then((res)=>{
+                      $(".loading").hide();
                       var response = JSON.parse(JSON.stringify(res));
                       if(response && response.n == 1){
                         this.formField = false;
@@ -61,72 +54,43 @@ export class ForgotPasswordComponent implements OnInit {
                         this.dialogsService.alert("Message","Something went wrong.Try again");
                       }
                     },(err)=>{
+                        $(".loading").hide();
                         this.dialogsService.alert("Message","Something went wrong.Try again");
                     })
-    }
   }
 
   newPasswordChange(event: any) {
     this.newPassword = event.target.value;
     let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    let passwordFormat = "no";
+    if(this.newPassword.length > 0){
+      if(regex.test(this.newPassword)){
+        this.validNewPassword = "yes"
+      }else{
+        this.validNewPassword = "no"
+      }
+    }
 
-    if(regex.test(this.newPassword)){
-      passwordFormat = "yes"
+    if(this.validNewPassword && this.validNewPassword == "yes" && this.confirmPassword && this.confirmPassword == this.newPassword) {
+       (<HTMLInputElement>document.getElementById('reset')).removeAttribute('disabled');
     }else{
-      passwordFormat = "no"
-    }
-
-    if(this.confirmPassword && this.confirmPassword == this.newPassword && passwordFormat == "yes"){
-      this.validNewPassword = "yes";
-      this.validConfirmPassword = "yes";
-    }
-    else if(this.confirmPassword && this.confirmPassword != this.newPassword){
-      this.validNewPassword = "no";
-    }
-    else if(!this.confirmPassword && passwordFormat == "yes"){
-      this.validNewPassword = "yes";
-    }
-    else {
-      this.validNewPassword = "no";
-    }
-
-    if(this.validNewPassword && this.validNewPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes") {
-      this.enableReset = true;
-    }else{
-      this.enableReset = false;
+       (<HTMLInputElement>document.getElementById('reset')).setAttribute('disabled', '');
     }
   }
 
   confirmPasswordChange(event: any) {
     this.confirmPassword = event.target.value;
-    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    let passwordFormat = "no";
-
-    if(regex.test(this.confirmPassword)){
-       passwordFormat = "yes"
-     }else{
-       passwordFormat = "no"
-     }
-
-    if(this.newPassword && this.newPassword == this.confirmPassword && passwordFormat == "yes"){
-      this.validConfirmPassword = "yes";
-      this.validNewPassword = "yes";
-    }
-    else if(this.newPassword && this.newPassword != this.confirmPassword){
-      this.validConfirmPassword = "no";
-    }
-    else if(!this.newPassword && passwordFormat == "yes"){
-      this.validConfirmPassword = "yes";
-    }
-    else{
-      this.validConfirmPassword = "no"; 
+    if(this.confirmPassword.length > 0){
+      if(this.newPassword && this.newPassword == this.confirmPassword){
+         this.validConfirmPassword = "yes";
+       }else {
+         this.validConfirmPassword = "no";
+       }
     }
 
-    if(this.validNewPassword && this.validNewPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes") {
-      this.enableReset = true;
+    if(this.validNewPassword && this.validNewPassword == "yes" && this.newPassword && this.confirmPassword == this.newPassword) {
+      (<HTMLInputElement>document.getElementById('reset')).removeAttribute('disabled');
     }else{
-      this.enableReset = false;
+      (<HTMLInputElement>document.getElementById('reset')).setAttribute('disabled', '');
     }
 
   }
