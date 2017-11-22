@@ -1,0 +1,37 @@
+.margin {
+  margin-top: 40px;
+}
+.heading{
+  color: #fff;
+}
+.signup{
+  margin-top: 30px;
+}
+.login-field {
+	padding: 0px;
+	margin-bottom: 15px;
+}
+
+.icon-position {
+	padding-top: 8px;
+}
+
+.fa-check-circle {
+	color: green;
+}
+
+.fa-times {
+	color: red;
+}
+.email-error {
+	color: red;
+}
+
+.signup-field {
+	margin-left: 5%;
+}
+
+.signup-btn {
+	margin-left: 5%;
+	margin-right: 15%;
+}

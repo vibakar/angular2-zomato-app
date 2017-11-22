@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div *ngIf="filteredRestaurantData" class="row">
+    <div *ngFor="let res of filteredRestaurantData | paginate: { itemsPerPage: 10, currentPage: p };let i = index" class="col-sm-6 col-md-3 col-lg-3">
+      <div class="thumbnail" style="height:470px">
+          <img src="{{res.restaurant.featured_image}}" [style.width]="100+'%'" [style.height]="200+'px'" class="img-responsive" alt="Loading...">
+        <div class="caption caption-block">
+          <h4>{{res.restaurant.name}}
+            <a data-toggle="tooltip" title="view location" target="_blank" href="https://www.google.co.in/maps/search/{{res.restaurant.location.latitude}}+{{res.restaurant.location.longitude}}?sa=X&ved=0ahUKEwiHmrawtKfVAhWIfrwKHfO8DNUQ8gEIIDAA">
+              <span class="glyphicon glyphicon-map-marker"></span></a>
+          </h4>
+          <p> <span class="title">Cuisines:</span> {{res.restaurant.cuisines}} </p>
+          <p><span class="title">Location:</span> {{res.restaurant.location.address}} </p>
+          <p> <span class="title">Ratings:</span> {{res.restaurant.user_rating.aggregate_rating}} </p>
+        </div>
+        <button class="btn btn-block {{res.buttonValue ? 'btn-info disabled' : 'btn-primary'}}"  (click)="addRestaurant(res,i)" role="button">
+          <span class="glyphicon {{res.buttonValue ? 'glyphicon-ok-sign' : 'glyphicon-heart'}}"></span>&nbsp;&nbsp;{{res.buttonValue || 'Add to Favourites'}}</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="paginate">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<app-nav></app-nav>
+<div class="container-fluid">
+  <div *ngIf="!noRestaurantsFound">
+    <button class="btn btn-primary btn-sm clearall-btn" (click)="deleteAllRestaurants()" role="button">
+      Clear All</button>
+  </div>
+  <div class="row">
+    <div *ngFor="let res of fetchedRestaurants  | paginate: { itemsPerPage: 10, currentPage: p }" class="col-sm-6 col-md-3 col-lg-3">
+      <div class="thumbnail" style="height:470px">
+        <img src="{{res.restaurantImage}}" [style.width]="100+'%'" [style.height]="200+'px'" class="img-responsive" alt="Loading...">
+        <div class="caption caption-block">
+          <h4>{{res.restaurantName}}  <a data-toggle="tooltip" title="view location" target="_blank" href="https://www.google.co.in/maps/search/{{res.restaurantLatitude}}+{{res.restaurantLongitude}}?sa=X&ved=0ahUKEwiHmrawtKfVAhWIfrwKHfO8DNUQ8gEIIDAA">
+              <span class="glyphicon glyphicon-map-marker"></span></a>
+          </h4>
+          <p> <span class="title">Cuisines:</span> {{res.restaurantCuisines}}</p>
+          <p> <span class="title">Location:</span> {{res.restaurantAddress}}</p>
+          <p> <span class="title">Ratings:</span> {{res.restaurantRatings}} </p>
+        </div>
+          <button class="btn btn-block btn-warning" (click)="deleteRestaurant(res.restaurantId)" role="button">
+            <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;Delete</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="noRestaurantsFound">
+    <h3 class="text-center no-restaurant">No favourite restaurants found <a [routerLink]="['/home']">Add Restaurants</a></h3>
+  </div>
+
+  <div *ngIf="!noRestaurantsFound">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>

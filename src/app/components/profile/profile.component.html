@@ -1,0 +1,136 @@
+<app-nav></app-nav>
+<div class="container">
+    <div class="panel panel-default">
+    	<div class="panel-body">
+    		<div class="row">
+    			<div class="col-md-4">
+    				<img class="img-circle" src="{{userImage}}" alt="loading.." width="100px" height="100px"> <span class="foto-edit glyphicon glyphicon-edit" (click)="enableFotoEdit()"></span>
+    			</div>
+    			<div class="col-md-8">
+    				<h2 class="username">{{userDetails.firstName}} {{userDetails.lastName}} </h2>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="panel panel-default" *ngIf="editFoto">
+    	<div class="panel-body">
+    		<div class="row">
+    			<form method="post" ngNoForm  enctype="multipart/form-data" action="/users/upload">
+	    			<div class="form-group col-md-3">
+					    <input class="form-control" type="file" name="userFile">
+					</div>
+					<div class="col-md-3">
+					    <input type="submit" class="btn btn-primary" value="Submit">
+					</div>
+				</form>
+    		</div>
+    	</div>
+    </div>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      	Personal Details
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="row pd-input">	
+	                  <div class="col-md-4 col-md-offset-1">
+	                	 <label for="firstname">First Name</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.firstName" placeholder="First Name" id="firstname" type="text" disabled>
+	                   </div>
+	                   <div class="col-md-4 col-md-offset-2">
+	                     <label for="lastname">Last Name</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.lastName" placeholder="Last Name" id="lastname" type="text" disabled>
+	                   </div>
+	                   <span class="glyphicon glyphicon-edit col-md-1" (click)="enableEdit()"></span>
+                  </div>
+                  <div class="row pd-input">
+	                  <div class="col-md-4 col-md-offset-1">
+	                	 <label for="email">Email</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.email" placeholder="Email" id="email" type="text"disabled>
+	                   </div>
+	                   <div class="col-md-4 col-md-offset-2">
+	                     <label for="city">City</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.city" placeholder="City" id="city" type="text" disabled>
+	                   </div>
+                  </div>
+                  <div class="row pd-input">
+	                  <div class="col-md-4 col-md-offset-1">
+	                	 <label for="state">State</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.state" placeholder="State" id="state" type="text" disabled>
+	                   </div>
+	                   <div class="col-md-4 col-md-offset-2">
+	                     <label for="mobile">Mobile</label>
+	                     <input class="form-control" [(ngModel)]="userDetails.mobile" placeholder="Mobile" id="mobile" type="text" disabled>
+	                   </div>
+                  </div>
+                   <div class="row pd-input">
+	                  <div class="col-md-4 col-md-offset-1">
+	                   </div>
+	                   <div class="col-md-4 col-md-offset-2">
+	                     <button class="btn btn-primary btn-md col-md-4" id="save" (click)="saveUserDetails()"disabled>Save</button>
+	                   </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Change Password
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    <div class="row pd-input">
+	                  <div class="form-group col-md-6 col-md-offset-3">
+				        <label for="oldpassword">Old Password</label>
+				        <div class="col-md-10">
+				        	<input type="Password" class="form-control" placeholder="Old Password" (keyup)="oldPasswordCheck($event)" id="oldPassword" #oldpassword>
+				        </div>
+				        <div class="col-md-2">
+				        	<i *ngIf="validOldPassword" class="icon-position fa {{validOldPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        </div>
+				        <!-- <span *ngIf="validOldPassword=='no'" class="oldpwd-error">Old Password is wrong!!</span> -->
+				      </div>
+				      <div class="form-group col-md-6 col-md-offset-3">
+				        <label for="newpassword">New Password</label>
+				        <div class="col-md-10">
+				        	<input type="Password" class="form-control" placeholder="New Password" (keyup)="newPasswordChange($event)" id="newPassword" #newpassword>
+				        </div>
+				        <div class="col-md-2">
+				        	<i *ngIf="validNewPassword" class="icon-position fa {{validNewPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        </div>
+				      </div>
+				      <div class="form-group col-md-6 col-md-offset-3">
+				        <label class="confirmpassword">Confirm Password</label>
+				        <div class="col-md-10">
+				        	<input type="Password" class="form-control" placeholder="Confirm Password" (keyup)="confirmPasswordChange($event)" id="confirmPassword" #confirmpassword>
+				        </div>
+				        <div class="col-md-2">
+				        	<i *ngIf="validConfirmPassword" class="icon-position fa {{validConfirmPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+				        </div>
+				      </div>
+				      <div class="form-group col-md-6 col-md-offset-3">
+				       <div class="col-md-10">
+				       	<button class="btn btn-primary {{enableChangePassword == true ? '' : 'disabled'}}" (click)="changePassword(oldpassword.value,newpassword.value,confirmpassword.value);oldpassword.value = '';newpassword.value = '';confirmpassword.value = ''">Change Password</button>
+				       </div>
+				      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- panel-group -->
+    
+</div><!-- container -->

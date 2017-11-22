@@ -1,0 +1,87 @@
+<app-nav></app-nav>
+<div class="container height">
+    <h3 class="text-center heading">Welcome to the Zomato Foodies App</h3>
+  <div class="row margin" *ngIf="showlogin">
+    <div class="col-md-4 col-md-offset-4" >
+      <div class="panel panel-primary">
+        <div class="panel-heading panel-primary">
+        Login Here
+        </div>
+        <div class="panel-body">
+          <div>
+            <label for="email">Email &nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></label>
+            <input type="text" #email class="form-control" placeholder="Email" id="email" />
+          </div><br>
+          <div>
+            <label for="password">Password &nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></label>
+            <input type="password" #password class="form-control" placeholder="Password" id="password" />
+          </div><br>
+          <div>
+            <button class="form-control btn btn-primary" (click)="login(email.value,password.value)" >Login</button>
+          </div>
+        </div>
+        <div class="panel-footer">
+          New User? <a href="JavaScript:void(0);" (click)="showSignup()">Register </a>
+          Forgot Password?  <a href="JavaScript:void(0);" (click)="resetPassword()">Reset Here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="container">
+    <div class="row signup" *ngIf="!showlogin">
+      <div class="col-md-4 col-md-offset-4" >
+        <div class="panel panel-primary">
+          <div class="panel-heading panel-primary">
+          Signup Here
+          </div>
+          <div class="panel-body">
+            <div class="form-group signup-field">
+              <label for="newusername">Username &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span></label>
+              <div class="col-md-10 login-field">
+              <input type="text" #newUsername class="form-control" (keyup)="usernameChange($event)" placeholder="Username" id="newusername" />
+              </div>
+              <div class="col-md-2">
+              <i *ngIf="validName" class="icon-position fa {{validName == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="form-group signup-field">
+              <label for="email">Email &nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></label>
+              <div class="col-md-10 login-field">
+              <input type="email" #newemail class="form-control" (keyup)="useremailChange($event)" placeholder="Email" id="email" />
+              </div>
+              <div class="col-md-2">
+              <i *ngIf="validEmail" class="icon-position fa {{validEmail == 'yes' &&  emailExists == 'no'? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+              </div>
+              <span *ngIf="emailExists=='yes'" class="email-error">Email already exists!!</span>
+            </div>
+            <div class="form-group signup-field">
+              <label for="newpassword">Password &nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></label>
+              <div class="col-md-10 login-field">
+              <input type="password" #newPassword class="form-control" (keyup)="userPassword($event)" placeholder="Password" id="newpassword" />
+              </div>
+              <div class="col-md-2">
+              <i *ngIf="validPassword" class="icon-position fa {{validPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="form-group signup-field">
+              <label for="confirmPassword">Confirm-Password &nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></label>
+              <div class="col-md-10 login-field">
+              <input type="password" #newConfirmPassword class="form-control" (keyup)="userConfirmPasswordCheck($event)" placeholder="Confirm Password" id="confirmPassword" />
+              </div>
+              <div class="col-md-2">
+              <i *ngIf="validConfirmPassword" class="icon-position fa {{validConfirmPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="form-group signup-btn">
+              <button class="form-control btn btn-primary {{enableSignupBtn == true && emailExists == 'no' ? '' : 'disabled' }}" (click)="signup(newUsername.value,newemail.value,newPassword.value,newConfirmPassword.value)" >Signup</button>
+            </div>
+          </div>
+          <div class="panel-footer">
+            Already Registered? <a href="JavaScript:void(0);" (click)="showLogin()">Login Here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>

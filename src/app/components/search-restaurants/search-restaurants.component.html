@@ -1,0 +1,16 @@
+<app-nav></app-nav>
+<h4 class="col-md-8 col-md-offset-4">Search for cuisines in your favourite restaurants</h4>
+<div class="col-md-9 col-md-offset-3">
+  <div class="form-group col-md-3">
+    <input type="text" class="form-control" #city value="" placeholder="City" />
+  </div>
+  <div class="form-group col-md-3">
+    <input type="text" class="form-control" #cuisine value="" placeholder="Cuisine" />
+  </div>
+  <div class="form-group col-md-3">
+    <button class="btn btn-primary" disabled="{{disabled}}" (click)="fetchRestaurants(city.value, cuisine.value, 'search')">
+      <i class="fa {{search==='Search' ? 'fa-spinner' : 'fa-spinner fa-spin'}}"></i>&nbsp;&nbsp;{{search}}</button>
+  </div>
+</div>
+
+<app-display-restaurants [paginate]="pagination" [restaurantsData]="restaurants"></app-display-restaurants>

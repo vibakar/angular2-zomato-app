@@ -1,0 +1,21 @@
+.caption-block {
+  height: 210px;
+  margin: 5px 0px;
+}
+
+.title {
+  color: brown;
+  font-weight: bold;
+}
+
+a:hover,a:visited,a:active,a:link {
+  text-decoration: none;
+}
+
+a {
+  color: black;
+}
+
+.glyphicon-map-marker {
+  color: brown;
+}

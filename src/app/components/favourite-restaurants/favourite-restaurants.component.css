@@ -1,0 +1,27 @@
+.caption-block {
+  height: 210px;
+  margin: 5px 0px;
+}
+.clearall-btn {
+  margin-top: -20px;
+  margin-left: 47%;
+}
+.no-restaurant {
+  color: white;
+}
+h3 a {
+  color: lightgrey;
+}
+.title {
+  color: brown;
+  font-weight: bold;
+}
+a:hover,a:visited,a:active,a:link {
+  text-decoration: none;
+}
+a {
+  color: black;
+}
+.glyphicon-map-marker {
+  color: brown;
+}
