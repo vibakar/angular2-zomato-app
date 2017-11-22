@@ -165,8 +165,6 @@ export class LoginComponent implements OnInit {
   }
   userConfirmPasswordCheck(event: any){
     this.userConfirmPassword = event.target.value;
-    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-
     if(this.userNewPassword && this.userNewPassword == this.userConfirmPassword){
       this.validConfirmPassword = "yes";
     }
