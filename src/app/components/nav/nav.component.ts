@@ -26,6 +26,7 @@ export class NavComponent implements OnInit {
     this.usersApi.logout().then((res)=>{
       var response = JSON.parse(JSON.stringify(res));
       if(response.responseText=="sessionDestroyed"){
+        localStorage.removeItem("token");
         localStorage.removeItem("username");
         localStorage.removeItem("userlocation");
         localStorage.removeItem("useremail");

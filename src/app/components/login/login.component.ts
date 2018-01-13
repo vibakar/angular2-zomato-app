@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
                           this.usersApi.getUsername().then((resp)=>{
                             var user = JSON.parse(JSON.stringify(resp));
                             localStorage.setItem("username",user[0].username);
+                            localStorage.setItem("token", response.token);
                             this.router.navigateByUrl(this.returnUrl);
                           },(err)=>{
                             this.dialogsService.alert("Message","Try login again");
@@ -77,15 +78,12 @@ export class LoginComponent implements OnInit {
       this.usersApi.signup({username:username,email:email,password:password})
                    .then((res)=>{
                     var response = JSON.parse(JSON.stringify(res));
-                    if(response.code==11000){
-                      this.dialogsService.alert("Message","Email already exists.Try another!!");
-                    }else{
+                      localStorage.setItem("token", response.token);
                       localStorage.setItem("username", username);
                       this.router.navigate(['/home']);
-                    }
                   },(err)=>{
                     this.dialogsService.alert("Message","System busy.Try Later!!");
-                  })
+                  });
     }
   }
 

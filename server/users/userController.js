@@ -2,8 +2,11 @@ var User = require('./userEntity');
 var session = require('express-session');
 var path = require('path');
 var multer = require('multer');
+var jwt = require('jsonwebtoken');
+
 var userEmail  = '';
 var userPic = '';
+
 var storage = multer.diskStorage({
   destination: function(req, file, callback) {
     callback(null, '../angular2-zomato-app/src/assets/images')
@@ -30,7 +33,8 @@ var userController = {
       });
 
       userDetails.save().then((doc)=>{
-        res.send(doc);
+        var token = jwt.sign({ email: req.body.email}, 'iamafullstackdeveloper');
+        res.send({doc:doc, token: token});
       },(err)=>{
         res.send(err)
       });
@@ -39,7 +43,8 @@ var userController = {
     login: function(req,res) {
       req.session.email = req.body.email;
       userEmail = req.body.email;
-      res.send({responseText:'authenticated',userEmail: req.body.email});
+      var token = jwt.sign({ email: req.body.email}, 'iamafullstackdeveloper');
+      res.send({responseText:'authenticated',userEmail: req.body.email, token: token});
     },
 
     logout: function(req,res) {
