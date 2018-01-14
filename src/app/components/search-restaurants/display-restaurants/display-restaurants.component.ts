@@ -65,7 +65,7 @@ export class DisplayRestaurantsComponent implements OnInit, OnChanges {
     $(".loading").show();
     if(!this.isLoggedIn){
       $(".loading").hide();
-      this.dialogsService.alert("Message","Please Log in to add to your favourites");
+      this.dialogsService.alert("Message","Please Login to add to your favourites!");
       return;
     }
     if(restaurant.buttonValue){

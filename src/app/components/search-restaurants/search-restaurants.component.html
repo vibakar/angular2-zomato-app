@@ -8,8 +8,8 @@
     <input type="text" class="form-control" #cuisine value="" placeholder="Cuisine" />
   </div>
   <div class="form-group col-md-3">
-    <button class="btn btn-primary" disabled="{{disabled}}" (click)="fetchRestaurants(city.value, cuisine.value, 'search')">
-      <i class="fa {{search==='Search' ? 'fa-spinner' : 'fa-spinner fa-spin'}}"></i>&nbsp;&nbsp;{{search}}</button>
+    <button class="btn btn-primary" disabled="{{disabled}}" (click)="fetchRestaurants(city.value, cuisine.value, 'search');city.value='';cuisine.value=''">
+      <i class="fa {{search==='Search' ? 'fa-search' : 'fa-spinner fa-spin'}}"></i>&nbsp;&nbsp;{{search}}</button>
   </div>
 </div>
 

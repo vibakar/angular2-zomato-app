@@ -42,16 +42,14 @@ export class SearchRestaurantsComponent implements OnInit {
     this.zomato.getRestaurants(cityName, cuisineName).then(
       (data)=> {
        $(".loading").hide();
+       this.search = "Search";
+       this.disabled = "";
         if(data){
           this.restaurants = data;
-          this.search = "Search";
-          this.disabled = "";
           this.pagination = true;
         }else{
-          this.search = "Search";
-          this.disabled = "";
           this.pagination = false;
-          this.dialogsService.alert("Message","Failed to search restaurants.Please try again");
+          this.dialogsService.alert("Message","Failed to fetch restaurants.Please try again");
         }
       },
       (err)=>{
@@ -59,23 +57,9 @@ export class SearchRestaurantsComponent implements OnInit {
         this.disabled = "";
         this.pagination = false;
         this.search = "Search";
-
-        this.visited = sessionStorage.getItem("visited");
-        if(this.autoSearch && this.autoSearch == true){
-          if(!this.visited){
-            sessionStorage.setItem("visited", "visited");
-        this.visited = localStorage.getItem("visited");
-        if(this.autoSearch && this.autoSearch == true){
-          if(!this.visited){
-            sessionStorage.setItem("visited", "visited");
-            this.dialogsService.alert("Message","Unable to fetch restaurants near you.Try manual search");
-            this.autoSearch = false;
-          }
-        }else{
-          this.dialogsService.alert("Message","Failed to fetch restaurants.Try again");
+        if(userSearch){
+          this.dialogsService.alert("Message","Failed to fetch restaurants.Try again later");
         }
-      }
-    }
     });
   }
 

@@ -41,7 +41,7 @@ app.get('*', (req, res) => {
 });
 
 //Get port from environment and store in Express
-const port = process.env.PORT || '8087';
+const port = process.env.PORT || '8079';
 app.set('port', port);
 
 // Create HTTP server.

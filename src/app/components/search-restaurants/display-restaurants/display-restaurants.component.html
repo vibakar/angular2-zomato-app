@@ -12,7 +12,7 @@
           <p><span class="title">Location:</span> {{res.restaurant.location.address}} </p>
           <p> <span class="title">Ratings:</span> {{res.restaurant.user_rating.aggregate_rating}} </p>
         </div>
-        <button class="btn btn-block {{res.buttonValue ? 'btn-info disabled' : 'btn-primary'}}"  (click)="addRestaurant(res,i)" role="button">
+        <button class="btn btn-block {{res.buttonValue ? 'btn-info' : 'btn-primary'}}"  (click)="addRestaurant(res,i)" [disabled]="res.buttonValue" role="button">
           <span class="glyphicon {{res.buttonValue ? 'glyphicon-ok-sign' : 'glyphicon-heart'}}"></span>&nbsp;&nbsp;{{res.buttonValue || 'Add to Favourites'}}</button>
       </div>
     </div>

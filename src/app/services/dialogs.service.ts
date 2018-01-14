@@ -14,7 +14,7 @@ export class DialogsService {
         let dialogRef: MatDialogRef<AlertComponent>;
 
         dialogRef = this.dialog.open(AlertComponent,{
-        	height:'150px',
+        	height:'200px',
         	width:'450px'
         });
         dialogRef.componentInstance.title = title;
@@ -28,7 +28,7 @@ export class DialogsService {
         let dialogRef: MatDialogRef<ConfirmComponent>;
 
         dialogRef = this.dialog.open(ConfirmComponent,{
-        	height:'150px',
+        	height:'200px',
         	width:'450px'
         });
         dialogRef.componentInstance.title = title;
