@@ -26,6 +26,8 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/jquery": "^3.2.12",
+    "@types/node": "~6.0.60",
     "angular2-jwt": "^0.2.3",
     "angular2-modal": "^3.0.1",
     "axios": "^0.16.2",
