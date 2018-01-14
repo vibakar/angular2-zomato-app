@@ -16,9 +16,18 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   validName; validEmail; validPassword; validConfirmPassword; userNewPassword; userConfirmPassword;
   emailExists:string = "no";
+  disableLogin = true;
   
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+  }
+
+  validateLogin(email, password){
+    if(email && password){
+      this.disableLogin = false;
+    }else{
+      this.disableLogin = true;
+    }
   }
 
   login(email,password){
@@ -35,8 +44,10 @@ export class LoginComponent implements OnInit {
       return;
     }
     else{
+      $(".loading").show();
       this.usersApi.login(email,password)
                     .then((res)=>{
+                      $(".loading").hide();
                       var response = JSON.parse(JSON.stringify(res));
                       if(response.responseText=="authenticated"){
                           this.usersApi.getUsername().then((resp)=>{
@@ -52,6 +63,7 @@ export class LoginComponent implements OnInit {
                       }
                     },
                     (err)=>{
+                      $(".loading").hide();
                       this.dialogsService.alert("Message","Email or Password Incorrect");
                     })
     }
@@ -75,13 +87,16 @@ export class LoginComponent implements OnInit {
       return;
     }
     else{
+      $(".loading").show();
       this.usersApi.signup({username:username,email:email,password:password})
                    .then((res)=>{
+                     $(".loading").hide();
                     var response = JSON.parse(JSON.stringify(res));
                       localStorage.setItem("token", response.token);
                       localStorage.setItem("username", username);
                       this.router.navigate(['/home']);
                   },(err)=>{
+                    $(".loading").hide();
                     this.dialogsService.alert("Message","System busy.Try Later!!");
                   });
     }
@@ -94,12 +109,11 @@ export class LoginComponent implements OnInit {
   // detecting input field change
   usernameChange(event: any){
     let username = event.target.value;
-    if(username.length > 0){
-        if(username.length > 3){
-          this.validName = "yes";
-        }else{
-          this.validName = "no";
-        }
+    let usernameRegex = /^[a-zA-Z]{6,20}$/;
+    if(username && usernameRegex.test(username)){
+        this.validName = "yes";
+    } else{
+        this.validName = "no";
     }
 
     if(this.validName && this.validName == "yes" && this.validEmail && this.validEmail == "yes" && this.validPassword && this.validPassword == "yes" && this.validConfirmPassword && this.validConfirmPassword == "yes" && this.emailExists == "no"){
@@ -146,7 +160,7 @@ export class LoginComponent implements OnInit {
 
   userPassword(event: any){
     this.userNewPassword = event.target.value;
-    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
 
     if(this.userNewPassword.length > 0){
       if(regex.test(this.userNewPassword)){

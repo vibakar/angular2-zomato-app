@@ -10,14 +10,14 @@
         <div class="panel-body">
           <div>
             <label for="email">Email &nbsp;&nbsp;<span class="glyphicon glyphicon-envelope"></span></label>
-            <input type="text" #email class="form-control" placeholder="Email" id="email" />
+            <input type="text" #email class="form-control" (keyup)="validateLogin(email.value, password.value)" placeholder="Email" id="email" />
           </div><br>
           <div>
             <label for="password">Password &nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></label>
-            <input type="password" #password class="form-control" placeholder="Password" id="password" />
+            <input type="password" #password class="form-control" placeholder="Password" id="password"(keyup)="validateLogin(email.value, password.value)" />
           </div><br>
           <div>
-            <button class="form-control btn btn-primary" (click)="login(email.value,password.value)" >Login</button>
+            <button class="form-control btn btn-primary" [disabled]="disableLogin" (click)="login(email.value,password.value)" >Login</button>
           </div>
         </div>
         <div class="panel-footer">
@@ -40,7 +40,7 @@
             <div class="form-group signup-field">
               <label for="newusername">Username &nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span></label>
               <div class="col-md-10 login-field">
-              <input type="text" #newUsername class="form-control" (keyup)="usernameChange($event)" placeholder="Username" id="newusername" />
+              <input type="text" #newUsername class="form-control" (keyup)="usernameChange($event)" placeholder="Username" id="newusername" matTooltip="Only uppercase and lowercase letters are allowed.Min 6,Max 20"  matTooltipPosition="right" />
               </div>
               <div class="col-md-2">
               <i *ngIf="validName && newUsername.value.length > 0" class="icon-position fa {{validName == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
             <div class="form-group signup-field">
               <label for="newpassword">Password &nbsp;&nbsp;<span class="glyphicon glyphicon-eye-open"></span></label>
               <div class="col-md-10 login-field">
-              <input type="password" #newPassword class="form-control" (keyup)="userPassword($event)" placeholder="Password" id="newpassword" />
+              <input type="password" #newPassword class="form-control" (keyup)="userPassword($event)" placeholder="Password" id="newpassword" matTooltip="Should contain atleast 1 uppercase, 1 lowercase, 1 specail character and 1 number.Min 6,Max 20"  matTooltipPosition="right"/>
               </div>
               <div class="col-md-2">
               <i *ngIf="validPassword && newPassword.value.length > 0" class="icon-position fa {{validPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>

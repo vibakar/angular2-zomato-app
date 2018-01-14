@@ -6,9 +6,9 @@ import { MatDialogRef } from '@angular/material';
   template: `
         <strong>{{ title }}</strong>
         <h4>{{ message }}</h4>
-        <button type="button" md-button
+        <button type="button" mat-raised-button
             (click)="dialogRef.close(true)">Yes</button>
-        <button type="button" md-button
+        <button type="button" mat-raised-button
             (click)="dialogRef.close(false)">No</button>
   `
 })

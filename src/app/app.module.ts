@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { MatDialogModule,MatButtonModule,MatProgressSpinnerModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule }   from '@angular/forms';
 
@@ -48,6 +49,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     BootstrapModalModule,
     MatDialogModule,
     MatButtonModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     NgxPaginationModule,
     FormsModule

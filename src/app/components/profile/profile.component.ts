@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit {
 
   newPasswordChange(event: any) {
     this.newPassword = event.target.value;
-    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    let regex =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
 
     if(this.newPassword.length > 0){
         if(regex.test(this.newPassword)){

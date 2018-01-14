@@ -105,7 +105,7 @@
 				      <div class="form-group col-md-6 col-md-offset-3">
 				        <label for="newpassword">New Password</label>
 				        <div class="col-md-10">
-				        	<input type="Password" class="form-control" placeholder="New Password" (keyup)="newPasswordChange($event)" id="newPassword" #newpassword>
+				        	<input type="Password" class="form-control" placeholder="New Password" (keyup)="newPasswordChange($event)" id="newPassword" #newpassword matTooltip="Should contain atleast 1 uppercase, 1 lowercase, 1 specail character and 1 number.Min 6,Max 20" matTooltipPosition="right">
 				        </div>
 				        <div class="col-md-2">
 				        	<i *ngIf="validNewPassword && newpassword.value.length > 0" class="icon-position fa {{validNewPassword == 'yes' ? 'fa-check-circle' : 'fa-times'}}" aria-hidden="true"></i>
