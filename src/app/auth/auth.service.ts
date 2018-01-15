@@ -16,4 +16,13 @@ export class AuthService {
     }
   }
 
+  getUserEmail(){
+    if(this.loggedIn()){
+      var token = localStorage.getItem('token');
+      let jwtHelper = new JwtHelper();
+      return jwtHelper.decodeToken(token);
+    } else {
+      return null;
+    }
+  }
 }

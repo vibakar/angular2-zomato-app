@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogsService } from './../../services/dialogs.service';
 import { UsersService } from '../../services/users.service';
+import { AuthService } from '../../auth/auth.service';
 
 interface User {
 	firstName: string,
@@ -16,12 +17,14 @@ interface User {
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  providers: [UsersService,DialogsService]
+  providers: [UsersService,DialogsService,AuthService]
 })
 
 export class ProfileComponent implements OnInit {
-
-  constructor(private usersApi:UsersService,private dialogsService: DialogsService) { }
+  userEmail;
+  constructor(private usersApi:UsersService,private dialogsService: DialogsService, private auth: AuthService) {
+    this.userEmail = this.auth.getUserEmail() ? this.auth.getUserEmail().email : '';
+  }
   userDetails: User = {
   	firstName: '',
   	lastName: '',
@@ -36,7 +39,7 @@ export class ProfileComponent implements OnInit {
   editFoto:boolean = false;
   disableFileSubmit = true;
   ngOnInit() {
-  	this.usersApi.getUsername()
+  	this.usersApi.getUserInfo(this.userEmail)
   			     .then((res)=>{
   			     	var user = JSON.parse(JSON.stringify(res));
               if(user.length > 0 ){

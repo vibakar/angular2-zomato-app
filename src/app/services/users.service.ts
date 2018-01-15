@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
+
 @Injectable()
 export class UsersService {
+  email:string;
   private headers = new Headers({'Content-Type': 'application/json'});
-  constructor(private http: Http){}
+  constructor(private http: Http){
+  }
 
   login(email,password): Promise<void> {
     return this.http.post('/users/login',JSON.stringify({
@@ -51,8 +54,8 @@ export class UsersService {
                   (err)=>err.json())
   }
 
-  getUsersRestaurants(): Promise<void> {
-    return this.http.get('/users/getRestaurants')
+  getUsersRestaurants(email): Promise<void> {
+    return this.http.get(`/users/getRestaurants/${email}`)
                     .toPromise()
                     .then((res)=>res.json(),
                           (err)=>err.json())
@@ -73,8 +76,8 @@ export class UsersService {
                           (err)=>err.json)
   }
 
-  getUsername(): Promise<void> {
-    return this.http.get('/users/getUsername')
+  getUserInfo(email): Promise<void> {
+    return this.http.get(`/users/getUserInfo/${email}`)
                     .toPromise()
                     .then((res)=>res.json(),
                           (err)=>err.json())

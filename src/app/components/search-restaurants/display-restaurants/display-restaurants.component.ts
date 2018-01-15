@@ -19,14 +19,15 @@ export class DisplayRestaurantsComponent implements OnInit, OnChanges {
   dbRestaurantData:any = [];
   p:number = 1;
   isLoggedIn: boolean;
-
+  userEmail:string;
   constructor(private usersApi:UsersService,private dialogsService: DialogsService,private auth: AuthService) {
+     this.userEmail = this.auth.getUserEmail() ? this.auth.getUserEmail().email : '';
   }
 
   ngOnInit() {
     this.isLoggedIn = this.auth.loggedIn();
     if(this.isLoggedIn && this.isLoggedIn == true){
-        this.usersApi.getUsersRestaurants().then((res)=>{
+        this.usersApi.getUsersRestaurants(this.userEmail).then((res)=>{
           let response = JSON.parse(JSON.stringify(res));
           if(response.name=="MongoError"){
             this.dbRestaurantData = [];

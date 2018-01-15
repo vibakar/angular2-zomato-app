@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
                       $(".loading").hide();
                       var response = JSON.parse(JSON.stringify(res));
                       if(response.responseText=="authenticated"){
-                          this.usersApi.getUsername().then((resp)=>{
+                          this.usersApi.getUserInfo(email).then((resp)=>{
                             var user = JSON.parse(JSON.stringify(resp));
                             localStorage.setItem("username",user[0].username);
                             localStorage.setItem("token", response.token);

@@ -5,12 +5,12 @@ const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 
 router.post('/signup', userController.signup);
-router.get('/getRestaurants', userController.getRestaurants);
+router.get('/getRestaurants/:email', userController.getRestaurants);
 router.put('/addRestaurant', userController.addRestaurant);
 router.delete('/deleteRestaurant/:id', userController.deleteRestaurant);
 router.delete('/deleteAllRestaurants/', userController.deleteAllRestaurants);
 router.post('/checkUser', userController.checkUserExixts);
-router.get('/getUsername', userController.getUsername);
+router.get('/getUserInfo/:email', userController.getUserInfo);
 router.put('/resetPassword', userController.resetPassword);
 router.put('/updateUserDetails', userController.updateUserDetails);
 router.post('/login', passport.authenticate('local', {

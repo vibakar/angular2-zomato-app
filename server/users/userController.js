@@ -58,6 +58,7 @@ var userController = {
     },
 
     getRestaurants: function(req,res) {
+      req.session.email = req.params.email;
       User.find({"email":req.session.email}).then((docs) => {
           res.send(docs[0].restaurants);
       }, (err) => {
@@ -88,7 +89,9 @@ var userController = {
                         (err)=>res.send(err))
     },
 
-    getUsername: function(req, res) {
+    getUserInfo: function(req, res) {
+      req.session.email = req.params.email;
+      userEmail = req.session.email;
       User.find({"email":req.session.email})
           .then((docs) =>res.send(docs),
                 (err) =>res.send(err));

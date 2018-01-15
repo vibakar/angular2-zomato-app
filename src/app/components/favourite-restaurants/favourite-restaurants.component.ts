@@ -2,22 +2,26 @@ import { Component, OnInit } from '@angular/core';
 
 import { UsersService } from './../../services/users.service';
 import { DialogsService } from './../../services/dialogs.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-favourite-restaurants',
   templateUrl: './favourite-restaurants.component.html',
   styleUrls: ['./favourite-restaurants.component.css'],
-  providers: [UsersService,DialogsService]
+  providers: [UsersService,DialogsService,AuthService]
 })
 export class FavouriteRestaurantsComponent implements OnInit {
   fetchedRestaurants:any;
   noRestaurantsFound = false;
   p:number = 1;
-  constructor(private usersApi:UsersService,private dialogsService: DialogsService) { }
+  userEmail:string;
+  constructor(private usersApi:UsersService,private dialogsService: DialogsService, private auth:AuthService) { 
+    this.userEmail = this.auth.getUserEmail() ? this.auth.getUserEmail().email : '';
+  }
 
   ngOnInit() {
       $(".loading").show();
-      this.usersApi.getUsersRestaurants().then((res)=>{
+      this.usersApi.getUsersRestaurants(this.userEmail).then((res)=>{
         $(".loading").hide();
         if(res){
           this.fetchedRestaurants = res;
