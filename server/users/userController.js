@@ -9,7 +9,7 @@ var userPic = '';
 
 var storage = multer.diskStorage({
   destination: function(req, file, callback) {
-    callback(null, '../angular2-zomato-app/src/assets/images')
+    callback(null, 'src/assets/images')
   },
   filename: function(req, file, callback) {
     userPic = file.originalname;

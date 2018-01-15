@@ -4,7 +4,7 @@
     	<div class="panel-body">
     		<div class="row">
     			<div class="col-md-4">
-    				<img class="img-circle" src="{{userImage}}" alt="loading.." width="100px" height="100px"> <span class="foto-edit glyphicon glyphicon-edit" (click)="enableFotoEdit()"></span>
+    				<img class="img-circle" [src]="userImage" alt="loading.." width="100px" height="100px"> <span class="foto-edit glyphicon glyphicon-edit" (click)="enableFotoEdit()"></span>
     			</div>
     			<div class="col-md-8">
     				<h2 class="username">{{userDetails.firstName}} {{userDetails.lastName}} </h2>
@@ -18,10 +18,10 @@
     		<div class="row">
     			<form method="post" ngNoForm  enctype="multipart/form-data" action="/users/upload">
 	    			<div class="form-group col-md-3">
-					    <input class="form-control" type="file" name="userFile">
+					    <input class="form-control" type="file" (change)="isFileChoosen()" name="userFile" accept="image/jpeg,image/jpg,image/png">
 					</div>
 					<div class="col-md-3">
-					    <input type="submit" class="btn btn-primary" [disabled]="true" value="Submit">
+					    <input type="submit" class="btn btn-primary" [disabled]="disableFileSubmit" value="Submit">
 					</div>
 				</form>
     		</div>

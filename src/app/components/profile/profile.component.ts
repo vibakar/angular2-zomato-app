@@ -34,22 +34,34 @@ export class ProfileComponent implements OnInit {
   validOldPassword; validNewPassword; validConfirmPassword; newPassword; confirmPassword; oldPassword;
   userImage;
   editFoto:boolean = false;
+  disableFileSubmit = true;
   ngOnInit() {
   	this.usersApi.getUsername()
   			     .then((res)=>{
   			     	var user = JSON.parse(JSON.stringify(res));
-  			     	this.userDetails.firstName = user[0].username;
-  			     	this.userDetails.lastName = user[0].lastname;
-  			     	this.userDetails.email = user[0].email;
-  			     	this.userDetails.city = user[0].city;
-              this.userDetails.state = user[0].state;
-  			     	this.userDetails.mobile = user[0].mobile;
-  			     	this.userDetails.photo = user[0].photo || 'default.png';
-              this.oldPassword = user[0].password;
-              this.userImage = 'assets/images/'+ this.userDetails.photo.toString();
+              if(user.length > 0 ){
+               this.userDetails.firstName = user[0].username;
+               this.userDetails.lastName = user[0].lastname;
+               this.userDetails.email = user[0].email;
+               this.userDetails.city = user[0].city;
+               this.userDetails.state = user[0].state;
+               this.userDetails.mobile = user[0].mobile;
+               this.userDetails.photo = user[0].photo || 'default.png';
+               this.oldPassword = user[0].password;
+               this.userImage = 'assets/images/'+ this.userDetails.photo.toString();
+              } else {
+                this.dialogsService.alert("Message","System Busy.Please Try later");
+              }
+  			     	
   			     },(err)=>{
   			     	 this.dialogsService.alert("Message","Unable to fetch your details.Try later");
-  			     })
+  			     });
+  }
+
+  isFileChoosen(){
+      if ($('input:file').val()) {
+          this.disableFileSubmit = false;
+      }
   }
 
   enableEdit() {
